@@ -6,6 +6,10 @@ on:
     branches: [main, master]
   workflow_dispatch: {}
 jobs:
+    eslint:
+    name: ESLint Validation
+    runs-on: ubuntu-latest
+
   test:
     timeout-minutes: 10
     runs-on: ubuntu-latest
@@ -32,7 +36,7 @@ jobs:
         run: |
           if [ -d "playwright-report" ]; then
             echo "### Playwright Test Summary" >> $GITHUB_STEP_SUMMARY
-            echo "- **HTML Report**: Download the Artifacts to see Playwright Report"
+            echo " **HTML Report**: Download the Artifacts to see Playwright Report" >> $GITHUB_STEP_SUMMARY
           else
             echo "No report generated. Please check test execution."
           fi
