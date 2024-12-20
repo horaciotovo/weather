@@ -20,7 +20,7 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-        
+
       - name: ESLint Execution
         run: npm run lint
 
@@ -30,10 +30,6 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-
-      - name: Install dependencies
-        run: npm ci
-
       - name: Run Playwright tests
         run: npx playwright test
 
@@ -52,4 +48,3 @@ jobs:
           else
             echo "No report generated. Please check test execution."
           fi
-
