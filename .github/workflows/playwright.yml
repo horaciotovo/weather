@@ -4,6 +4,7 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  workflow_dispatch: {}
 jobs:
   test:
     timeout-minutes: 60
@@ -24,4 +25,17 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report/
-          retention-days: 30
+          retention-days: 3
+      - name: Generate Summary
+        id: summary
+        run: |
+          total=$(npx playwright show-report --json | jq '.stats.total')
+          passed=$(npx playwright show-report --json | jq '.stats.passed')
+          failed=$(npx playwright show-report --json | jq '.stats.failed')
+          skipped=$(npx playwright show-report --json | jq '.stats.skipped')
+          echo "### Playwright Test Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Total Tests**: $total" >> $GITHUB_STEP_SUMMARY
+          echo "- **Passed**: $passed" >> $GITHUB_STEP_SUMMARY
+          echo "- **Failed**: $failed" >> $GITHUB_STEP_SUMMARY
+          echo "- **Skipped**: $skipped" >> $GITHUB_STEP_SUMMARY
+          echo "- **HTML Report**: [Download here](./artifacts/playwright-html-report)" >> $GITHUB_STEP_SUMMARY
